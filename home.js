@@ -2,6 +2,7 @@
 // --- Home Page ---
 // ------------------------
 
+// Page Load Animation - Start
 const loadElement = document.querySelector(".load");
 if (loadElement) {
   window.addEventListener("load", pageLoad);
@@ -161,6 +162,57 @@ function pageLoad() {
   sessionStorage.setItem("visited", "true");
 }
 
+// Page Load Animation - Ends
+
+// Home Span Elements - Starts
+// Hero
+$(".hero-span").each(function (index) {
+  let relatedEl = $(".span-element.is-hero").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Images Section
+$(".images-section-span").each(function (index) {
+  let relatedEl = $(".span-element.is-images-section").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Why Section
+$(".why-section-span.is-1").each(function (index) {
+  let relatedEl = $(".span-element.is-why-section.is-1").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+$(".why-section-span.is-2").each(function (index) {
+  let relatedEl = $(".span-element.is-why-section.is-2").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Programs Section
+$(".programs-section-span").each(function (index) {
+  let relatedEl = $(".span-element.is-programs-section").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Stack Heading Section
+$(".stack-heading-span.is-1").each(function (index) {
+  let relatedEl = $(".span-element.is-stack-heading-span.is-1").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+$(".stack-heading-span.is-2").each(function (index) {
+  let relatedEl = $(".span-element.is-stack-heading-span.is-2").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Footer
+$(".footer-span").each(function (index) {
+  let relatedEl = $(".span-element.is-footer").eq(index);
+	relatedEl.appendTo($(this));
+});
+
+// Home Span Elements - Ends
+
 /* SPLIT TEXT ON SCROLL ANIMATION - Starts */
 document.addEventListener("DOMContentLoaded", () => {
   // Split text into spans
@@ -264,6 +316,69 @@ function whySection() {
   animateWhyGroup(thirdWhy, ".grid_element-img-wrap.is-third-group");
   animateWhyGroup(fourthWhy, ".grid_element-img-wrap.is-fourth-group");
 }
+
+// Home Mobile Slider - Starts
+$(".slider-main_component").each(function (index) {
+  let loopMode = false;
+  if ($(this).attr("loop-mode") === "true") {
+    loopMode = true;
+  }
+  let sliderDuration = 300;
+  if ($(this).attr("slider-duration") !== undefined) {
+    sliderDuration = +$(this).attr("slider-duration");
+  }
+  const swiper = new Swiper($(this).find(".swiper")[0], {
+    speed: sliderDuration,
+    loop: loopMode,
+    autoHeight: false,
+    centeredSlides: loopMode,
+    followFinger: true,
+    freeMode: false,
+    slideToClickedSlide: false,
+    spaceBetween: "4%",
+    rewind: false,
+    mousewheel: {
+      forceToAxis: true
+    },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true
+    },
+    breakpoints: {
+      // mobile landscape
+      480: {
+        slidesPerView: "auto",
+        spaceBetween: "4%"
+      },
+      // tablet
+      768: {
+        slidesPerView: "auto",
+        spaceBetween: "4%"
+      },
+      // desktop
+      992: {
+        slidesPerView: "auto",
+        spaceBetween: "2%"
+      }
+    },
+    pagination: {
+      el: $(this).find(".swiper-bullet-wrapper")[0],
+      bulletActiveClass: "is-active",
+      bulletClass: "swiper-bullet",
+      bulletElement: "button",
+      clickable: true
+    },
+    navigation: {
+      nextEl: $(this).find(".swiper-next")[0],
+      prevEl: $(this).find(".swiper-prev")[0],
+      disabledClass: "is-disabled"
+    },
+    slideActiveClass: "is-active",
+    slideDuplicateActiveClass: "is-active"
+  });
+});
+
+// Home Mobile Slider - Ends
 
 /* MARQUEE SECTION - Start */
 // Marquee Animation Power-Up
