@@ -190,58 +190,61 @@ if (loadElement) {
   }
 }
 
-// Text Highlight
-function revealSplit() {
-  new SplitType("[text-highlight]", { types: "words" });
-}
-revealSplit();
-
-function textLight() {
-  const textHighlight = document.querySelectorAll("[text-highlight]");
-  textHighlight.forEach(function (textHighlightInstance) {
-    const bodyHighlight = gsap.timeline({
-      scrollTrigger: {
-        trigger: textHighlightInstance,
-        start: "top 60%",
-        end: "bottom 40%",
-        scrub: 1,
-      },
-    });
-    bodyHighlight.from(textHighlightInstance.querySelectorAll(".word"), {
-      opacity: 0.2,
-      stagger: 0.03,
-      ease: "power3.out",
-      duration: 0.6,
-    });
-  });
-}
-textLight();
-
-// Resize CSS
-windowWidth = $(window).innerWidth();
-window.addEventListener("resize", function () {
-  if (windowWidth !== $(window).innerWidth()) {
-    windowWidth = $(window).innerWidth();
-    splitType();
-    typeSplit();
+// Wait for the DOM content to be fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+  // Text Highlight
+  function revealSplit() {
+    new SplitType("[text-highlight]", { types: "words" });
   }
+  revealSplit();
+
+  // Scroll-triggered text animation
+  function textLight() {
+    const textHighlight = document.querySelectorAll("[text-highlight]");
+    textHighlight.forEach(function (textHighlightInstance) {
+      gsap.from(textHighlightInstance.querySelectorAll(".word"), {
+        opacity: 0.2,
+        stagger: 0.03,
+        ease: "power3.out",
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: textHighlightInstance,
+          start: "top 60%",
+          end: "bottom 40%",
+          scrub: 1,
+        },
+      });
+    });
+  }
+  textLight();
+
+  // Resize CSS
+  let windowWidth = window.innerWidth;
+
+  window.addEventListener("resize", function () {
+    if (windowWidth !== window.innerWidth) {
+      windowWidth = window.innerWidth;
+      revealSplit(); // Assuming this function handles the resizing for SplitType
+    }
+  });
+
+  // Initialize SplitType
+  function initSplitType() {
+    const splitTypeElement = document.getElementById("splitType");
+
+    if (splitTypeElement) {
+      new SplitType("#splitType", {
+        types: "words,chars",
+        tagName: "span",
+      });
+    } else {
+      console.warn("Element with id 'splitType' not found. Code not executed.");
+    }
+  }
+
+  initSplitType();
 });
 
-// Initialize SplitType
-function initSplitType() {
-  var splitTypeElement = document.getElementById("splitType");
-
-  if (splitTypeElement) {
-    var splitTypeInstance = new SplitType("#splitType", {
-      types: "words,chars",
-      tagName: "span",
-    });
-  } else {
-    console.warn("Element with id 'splitType' not found. Code not executed.");
-  }
-}
-
-document.addEventListener("DOMContentLoaded", initSplitType);
 
 // Debounce Function for Resize
 window.addEventListener("resize", function () {
