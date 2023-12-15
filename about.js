@@ -3,248 +3,138 @@
 // ------------------------
 
 // Page Load Animation
-const loadElement = document.querySelector(".load");
+// Page Load Animation
+window.addEventListener("load", pageLoad);
 
-if (loadElement) {
-  window.addEventListener("load", pageLoad);
+function pageLoad() {
+  // Elements
+  const elementsToAnimate = [
+    "[load-title]",
+    "[load-nav]",
+    "[load-hero-heading-wrap]",
+    "[load-hero-scroll]",
+    "[load-hero-bg]",
+    "[load-subtitle]",
+  ];
 
-  function pageLoad() {
-    gsap.set(".load, [text-split], [load-title], [load-hero-bg]", {
-      autoAlpha: 1,
-    });
+  // Set initial visibility using GSAP
+  gsap.set(elementsToAnimate, { visibility: "hidden" });
 
-    $(".load").css("display", "flex");
-    document.body.style.cssText = "overflow: hidden; height: 100%;";
-    lenis.stop();
+  // Timeline for the heading, subheading, panels, and nav animations
+  const mainTimeline = gsap.timeline();
+  mainTimeline
+    .fromTo(
+      "[load-heading] .char",
+      { yPercent: 120 },
+      {
+        yPercent: 0,
+        stagger: { amount: 0.8 },
+        duration: 1,
+        ease: "power3.out",
+      },
+      0.2,
+    )
+    .from(
+      "[load-subtitle]",
+      { opacity: 0, duration: 1, ease: "power3.out" },
+      1.5,
+    )
+    .from(
+      "[load-hero-scroll]",
+      { opacity: 0, duration: 0.8, ease: "power3.inOut" },
+      1.5,
+    )
+    .fromTo(
+      "[load-nav]",
+      { yPercent: -100 },
+      { yPercent: 0, duration: 1, ease: "power3.inOut" },
+      0.8,
+    )
+    .from("[load-hero-bg]", {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power3.out",
+    })
+    .fromTo(
+      "[load-hero-paragraph]",
+      { opacity: 0 },
+      { opacity: 1, duration: 1, ease: "power3.inOut" },
+      ">-.6",
+    )
+    .fromTo(
+      "[load-hero-panel]",
+      { height: "-100%" },
+      { height: "0%", duration: 1.2, ease: "power3.inOut" },
+      ">-.6",
+    );
 
-    const loadTimeline = gsap.timeline({
-      onComplete: function () {
-        const headingWrap = document.querySelector("[load-hero-heading-wrap]");
-        const loadNav = document.querySelector("[load-nav]");
-        const loadHeroScroll = document.querySelector("[load-hero-scroll]");
+  // Reset body style
+  setTimeout(() => {
+    document.body.style.cssText = "overflow: auto;";
+  }, 1500);
 
-        if (headingWrap && loadNav && loadHeroScroll) {
-          gsap.set([headingWrap, loadNav, loadHeroScroll], {
-            autoAlpha: 1,
-          });
-        }
+  // Additional logic (if needed)
 
-        gsap
-          .timeline()
-          .fromTo(
-            "[load-heading] .char",
-            { yPercent: 120 },
-            {
-              yPercent: 0,
-              stagger: { amount: 0.8 },
-              duration: 1,
-              ease: "power3.out",
-            },
-            0.2,
-          )
-          .from(
-            "[load-subtitle]",
-            { opacity: 0, duration: 1, ease: "power3.out" },
-            1.5,
-          )
-          .from(
-            "[load-hero-scroll]",
-            { opacity: 0, duration: 0.8, ease: "power3.inOut" },
-            1.5,
-          )
-          .fromTo(
-            "[load-nav]",
-            { yPercent: -100 },
-            { yPercent: 0, duration: 1, ease: "power3.inOut" },
-            0.8,
-          );
+  // Set final visibility state using GSAP
+  gsap.set(elementsToAnimate, { visibility: "visible" });
+}
 
-        setTimeout(function () {
-          document.body.style.cssText = "overflow: auto;";
-          lenis.start();
-        }, 1500);
+// Page Load Animation - Ends
+
+// Text Highlight
+
+gsap.registerPlugin(ScrollTrigger);
+function revealSplit() {
+  new SplitType("[text-highlight]", { types: "words" });
+}
+revealSplit();
+
+function textLight() {
+  const textHighlight = document.querySelectorAll("[text-highlight]");
+  textHighlight.forEach(function (textHighlightInstance) {
+    const bodyHighlight = gsap.timeline({
+      scrollTrigger: {
+        trigger: textHighlightInstance,
+        start: "top 60%",
+        end: "bottom 40%",
+        scrub: 1,
       },
     });
+    bodyHighlight.from(textHighlightInstance.querySelectorAll(".word"), {
+      opacity: 0.2,
+      stagger: 0.03,
+      ease: "power3.out",
+      duration: 0.6,
+    });
+  });
+}
+textLight();
 
-    loadTimeline
-      .from("[load-loading]", {
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.inOut",
-      })
-      .from(
-        "[load-title1] .load-hero_span",
-        { y: "100%", stagger: 0.05, duration: 0.6, ease: "power2.out" },
-        ">",
-      )
-      .from(
-        "[load-title2] .load-hero_span",
-        { y: "100%", stagger: 0.05, duration: 1, ease: "power2.out" },
-        ">-.7",
-      )
-      .from(
-        "[load-title3] .load-hero_span",
-        { y: "100%", stagger: 0.06, duration: 1, ease: "power2.out" },
-        ">-1.125",
-      )
-      .from(
-        ".load-img_container .load-img",
-        {
-          opacity: 0,
-          stagger: { each: 0.4 },
-          duration: 1,
-          ease: "power3.inOut",
-          onComplete: () => {
-            const state = Flip.getState(".load-img.is-6", {
-              props: "backgroundPosition",
-            });
+// Resize CSS
+windowWidth = $(window).innerWidth();
+window.addEventListener("resize", function () {
+  if (windowWidth !== $(window).innerWidth()) {
+    windowWidth = $(window).innerWidth();
+    splitType();
+    typeSplit();
+  }
+});
 
-            const heroBgWrap = document.querySelector(".hero-bg_wrap");
+// Initialize SplitType
+function initSplitType() {
+  var splitTypeElement = document.getElementById("splitType");
 
-            if (heroBgWrap) {
-              Flip.from(state, {
-                targets: heroBgWrap,
-                duration: 1.25,
-                toggleClass: "flipping",
-                absolute: true,
-                ease: "power3.inOut",
-              });
-            }
-          },
-        },
-        ">",
-      )
-      .to(".load", { opacity: 0, display: "none" });
-
-    if (sessionStorage.getItem("visited") !== null) {
-      const loadElement = document.querySelector(".load");
-      if (loadElement) {
-        loadElement.remove();
-      }
-
-      loadTimeline.paused(true);
-      setTimeout(function () {
-        document.body.style.cssText = "overflow: auto; height: auto";
-      }, 300);
-
-      document.body.style.cssText = "overflow: auto;";
-      lenis.start();
-
-      const heroElements = document.querySelectorAll(
-        "[load-hero-heading-wrap], [load-nav], [load-hero-scroll], [load-hero-bg], [load-hero-paragraph], [load-hero-panel]",
-      );
-
-      heroElements.forEach((element) => {
-        gsap.set(element, { autoAlpha: 1 });
-      });
-
-      gsap
-        .timeline()
-        .from("[load-hero-bg]", {
-          opacity: 0,
-          duration: 0.6,
-          ease: "power3.out",
-        })
-        .fromTo(
-          "[load-heading] .char",
-          { yPercent: 120 },
-          {
-            yPercent: 0,
-            stagger: { amount: 0.8 },
-            duration: 1,
-            ease: "power3.out",
-          },
-          ">-.2",
-        )
-        .from(
-          "[load-subtitle]",
-          { opacity: 0, duration: 1, ease: "power3.out" },
-          ">-.4",
-        )
-        .from(
-          "[load-hero-scroll]",
-          { opacity: 0, duration: 0.8, ease: "power3.inOut" },
-          "<-.2",
-        )
-        .fromTo(
-          "[load-nav]",
-          { yPercent: -100 },
-          { yPercent: 0, duration: 1.2, ease: "power3.inOut" },
-          0.6,
-        )
-        .fromTo(
-          "[load-hero-paragraph]",
-          { opacity: 0 },
-          { opacity: 1, duration: 1, ease: "power3.inOut" },
-          ">-.6",
-        )
-        .fromTo(
-          "[load-hero-panel]",
-          { height: "-100%" },
-          { height: "0%", duration: 1.2, ease: "power3.inOut" },
-          ">-.6",
-        );
-    }
-
-    sessionStorage.setItem("visited", "true");
+  if (splitTypeElement) {
+    var splitTypeInstance = new SplitType("#splitType", {
+      types: "words,chars",
+      tagName: "span",
+    });
+  } else {
+    console.warn("Element with id 'splitType' not found. Code not executed.");
   }
 }
 
-// Wait for the DOM content to be fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-  // Text Highlight
-  function revealSplit() {
-    new SplitType("[text-highlight]", { types: "words" });
-  }
-  revealSplit();
-
-  // Scroll-triggered text animation
-  function textLight() {
-    const textHighlight = document.querySelectorAll("[text-highlight]");
-    textHighlight.forEach(function (textHighlightInstance) {
-      gsap.from(textHighlightInstance.querySelectorAll(".word"), {
-        opacity: 0.2,
-        stagger: 0.03,
-        ease: "power3.out",
-        duration: 0.6,
-        scrollTrigger: {
-          trigger: textHighlightInstance,
-          start: "top 60%",
-          end: "bottom 40%",
-          scrub: 1,
-        },
-      });
-    });
-  }
-  textLight();
-
-  // Resize CSS
-  let windowWidth = window.innerWidth;
-
-  window.addEventListener("resize", function () {
-    if (windowWidth !== window.innerWidth) {
-      windowWidth = window.innerWidth;
-      revealSplit(); // Assuming this function handles the resizing for SplitType
-    }
-  });
-
-  // Initialize SplitType
-  function initSplitType() {
-    const splitTypeElement = document.getElementById("splitType");
-
-    if (splitTypeElement) {
-      new SplitType("#splitType", {
-        types: "words,chars",
-        tagName: "span",
-      });
-    } else {
-      console.warn("Element with id 'splitType' not found. Code not executed.");
-    }
-  }
-
-  initSplitType();
-});
-
+document.addEventListener("DOMContentLoaded", initSplitType);
 
 // Debounce Function for Resize
 window.addEventListener("resize", function () {
@@ -399,3 +289,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 // Opacity Fade - Ends
+
