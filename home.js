@@ -240,7 +240,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
   });
 });
 
-/* STACK SECTION ANIMATION - Start */
+/* STACK SECTION ANIMATION */
 // Stack Card 1 Grows
 gsap.registerPlugin(ScrollTrigger);
 
@@ -357,9 +357,7 @@ thirdStackTl.fromTo(
   { y: "0px" },
 );
 
-/* STACK SECTION ANIMATION - End */
-
-/* Scroll Flip Power Up - Start */
+/* Scroll Flip Power Up */
 function scrollFlip() {
   $(document).ready(() => {
     function attr(defaultVal, attrVal) {
@@ -455,8 +453,6 @@ function scrollFlip() {
   });
 }
 
-/* Scroll Flip Power Up - End */
-
 // Stack Card Title Text 1 Shows
 $(".content-wrap.is-stack_card.is-first").each(function (index) {
   let triggerElement = $(this);
@@ -500,7 +496,7 @@ $(".content-child.is-programs.is-bottom").each(function (index) {
   });
 });
 
-// Stack Card Title 3 and Stack Card 2 Hides with Pointer Events Toggle - Start
+// Stack Card Title 3 and Stack Card 2 Hides with Pointer Events Toggle
 window.addEventListener("DOMContentLoaded", () => {
   const desktopBreakpoint = 992;
 
@@ -567,9 +563,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* SCROLL FLIP BORDER RADIUS - End */
-
-/* Stack Card Title 3 Pointer Events - Start */
+/* Stack Card Title 3 Pointer Events */
 $(".stack_card.is-3").each(function (index) {
   let triggerElement = $(this);
   let targetElement = $(".stack_card.is-1, .stack_card.is-2, .stack_card.is-3");
@@ -589,9 +583,7 @@ $(".stack_card.is-3").each(function (index) {
   );
 });
 
-/* Stack Card Title 3 Pointer Events - End */
-
-/* Stack Section Heading Animation - Start */
+/* Stack Section Heading Animation */
 window.addEventListener("DOMContentLoaded", () => {
   // Split text into spans
   let typeSplit = new SplitType("[home-text-split]", {
@@ -658,9 +650,7 @@ window.addEventListener("DOMContentLoaded", () => {
   gsap.set("[home-text-split]", { opacity: 1 });
 });
 
-/* Stack Section Heading Animation - End */
-
-/* Tours Heading Image Animation - Start */
+/* Tours Heading Image Animation */
 $(".title.is-tours-review").each(function (index) {
   let triggerElement = $(this);
   let targetElement = $(".tours-heading-h2_img-effect-wrap");
@@ -687,9 +677,7 @@ $(".title.is-tours-review").each(function (index) {
   );
 });
 
-/* Tours Heading Image Animation - End */
-
-/* Tours Heading Panel Image Animation - Start */
+/* Tours Heading Panel Image Animation */
 window.addEventListener("DOMContentLoaded", () => {
   // Link timelines to scroll position
   function createScrollTrigger(triggerElement, timeline) {
@@ -716,9 +704,7 @@ window.addEventListener("DOMContentLoaded", () => {
   gsap.set(".tour-img_panel", { opacity: 1 });
 });
 
-/* Tours Heading Panel Image Animation - End */
-
-/* Tours Heading Span Image Animation - Start */
+/* Tours Heading Span Image Animation */
 window.addEventListener("DOMContentLoaded", () => {
   // Link timelines to scroll position
   function createScrollTrigger(triggerElement, timeline) {
@@ -745,9 +731,7 @@ window.addEventListener("DOMContentLoaded", () => {
   gsap.set(".tour-img_panel", { opacity: 1 });
 });
 
-/* Tours Heading Span Image Animation - End */
-
-/* FADE IN TEXT ON SCROLL ANIMATION - Starts */
+/* FADE IN TEXT ON SCROLL ANIMATION */
 document.addEventListener("DOMContentLoaded", () => {
   // Link timeline to scroll position
   function createScrollTrigger(triggerElement, timeline) {
@@ -775,8 +759,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createScrollTrigger(this, tl);
   });
 });
-
-/* FADE IN TEXT ON SCROLL ANIMATION - Ends */
 
 // Opacity Fade
 document.addEventListener("DOMContentLoaded", () => {
@@ -806,7 +788,6 @@ document.addEventListener("DOMContentLoaded", () => {
     createFadeInScrollTrigger(element);
   });
 });
-// Opacity Fade - Ends
 
 // For desktop screensize only //
 let mm = gsap.matchMedia();
