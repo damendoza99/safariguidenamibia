@@ -107,16 +107,11 @@ function whySection() {
 }
 
 // Home Mobile Slider - Starts
-$(".slider-main_component").each(function (index) {
-  let loopMode = false;
-  if ($(this).attr("loop-mode") === "true") {
-    loopMode = true;
-  }
-  let sliderDuration = 300;
-  if ($(this).attr("slider-duration") !== undefined) {
-    sliderDuration = +$(this).attr("slider-duration");
-  }
-  const swiper = new Swiper($(this).find(".swiper")[0], {
+$(".slider-main_component").each(function () {
+  const loopMode = $(this).attr("loop-mode") === "true";
+  const sliderDuration = parseInt($(this).attr("slider-duration")) || 300;
+
+  const swiperOptions = {
     speed: sliderDuration,
     loop: loopMode,
     autoHeight: false,
@@ -164,7 +159,8 @@ $(".slider-main_component").each(function (index) {
     },
     slideActiveClass: "is-active",
     slideDuplicateActiveClass: "is-active"
-  });
+  };
+  new Swiper($(this).find(".swiper")[0], swiperOptions);
 });
 
 // MARQUEE POWER-UP
@@ -782,7 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* FADE IN TEXT ON SCROLL ANIMATION - Ends */
 
-// Opacity Fade - Starts
+// Opacity Fade
 document.addEventListener("DOMContentLoaded", () => {
   // Function to create a scroll trigger for fade-in elements
   function createFadeInScrollTrigger(element) {
