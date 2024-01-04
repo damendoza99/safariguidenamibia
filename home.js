@@ -793,7 +793,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let mm = gsap.matchMedia();
 mm.add("(min-width: 992px)", () => {
   whySection();
-  scrollFlip();
+  // scrollFlip();
   //   marquee(),
   //   navStagger(),
   //   headLight(),
