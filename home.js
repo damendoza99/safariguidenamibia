@@ -791,10 +791,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // For desktop screensize only //
 let mm = gsap.matchMedia();
-mm.add(
-  "(min-width: 992px)",
-  () => whySection(),
-  scrollFlip(),
+mm.add("(min-width: 992px)", () => {
+  whySection();
+  scrollFlip();
   //   marquee(),
   //   navStagger(),
   //   headLight(),
@@ -805,4 +804,4 @@ mm.add(
   //   heroALight(),
   //   aboutStat(),
   //   () => {}
-);
+});
