@@ -3,7 +3,6 @@
 // ------------------------
 
 // Page Load Animation
-// Page Load Animation
 window.addEventListener("load", pageLoad);
 
 function pageLoad() {
@@ -29,14 +28,14 @@ function pageLoad() {
       {
         yPercent: 0,
         stagger: { amount: 0.8 },
-        duration: 1,
+        duration: 0.8,
         ease: "power3.out",
       },
       0.2,
     )
     .from(
       "[load-subtitle]",
-      { opacity: 0, duration: 1, ease: "power3.out" },
+      { opacity: 0, duration: 0.8, ease: "power3.out" },
       1.5,
     )
     .from(
@@ -47,7 +46,7 @@ function pageLoad() {
     .fromTo(
       "[load-nav]",
       { yPercent: -100 },
-      { yPercent: 0, duration: 1, ease: "power3.inOut" },
+      { yPercent: 0, duration: 0.8, ease: "power3.inOut" },
       0.8,
     )
     .from("[load-hero-bg]", {
@@ -58,7 +57,7 @@ function pageLoad() {
     .fromTo(
       "[load-hero-paragraph]",
       { opacity: 0 },
-      { opacity: 1, duration: 1, ease: "power3.inOut" },
+      { opacity: 1, duration: 0.8, ease: "power3.inOut" },
       ">-.6",
     )
     .fromTo(
