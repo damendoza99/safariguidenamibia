@@ -2,6 +2,153 @@
 // --- Home Page ---
 // ------------------------
 
+// Home Load
+const loadElement = document.querySelector(".load");
+if (loadElement) {
+  window.addEventListener("load", pageLoad);
+}
+
+function pageLoad() {
+  gsap.set(".load, [text-split], [load-title], [load-hero-bg]", {
+    autoAlpha: 1,
+  });
+  $(".load").css("display", "flex");
+  document.body.style.cssText = "overflow: hidden; height: 100%;";
+  lenis.stop();
+
+  const loadElement = gsap.timeline({
+    onComplete: function () {
+      gsap.set("[load-hero-heading-wrap], [load-nav], [load-hero-scroll]", {
+        autoAlpha: 1,
+      });
+
+      gsap
+        .timeline()
+        .fromTo(
+          "[load-heading] .char",
+          { yPercent: 120 },
+          {
+            yPercent: 0,
+            stagger: { amount: 0.8 },
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          0.2,
+        )
+        .from(
+          "[load-subtitle]",
+          { opacity: 0, duration: 0.8, ease: "power3.out" },
+          1.5,
+        )
+        .from(
+          "[load-hero-scroll]",
+          { opacity: 0, duration: 0.6, ease: "power3.inOut" },
+          1.5,
+        )
+        .fromTo(
+          "[load-nav]",
+          { yPercent: -100 },
+          { yPercent: 0, duration: 0.8, ease: "power3.inOut" },
+          0.8,
+        );
+
+      setTimeout(function () {
+        document.body.style.cssText = "overflow: auto;";
+        lenis.start();
+      }, 1500);
+    },
+  });
+
+  loadElement
+    .from("[load-loading]", { opacity: 0, duration: 1.2, ease: "power3.inOut" })
+    .from(
+      "[load-title1] .load-hero_span",
+      { y: "100%", stagger: 0.04, duration: 0.6, ease: "power2.out" },
+      ">",
+    )
+    .from(
+      "[load-title2] .load-hero_span",
+      { y: "100%", stagger: 0.05, duration: 0.8, ease: "power2.out" },
+      ">-.7",
+    )
+    .from(
+      "[load-title3] .load-hero_span",
+      { y: "100%", stagger: 0.05, duration: 0.8, ease: "power2.out" },
+      ">-1.125",
+    )
+    .from(
+      ".load-img_container .load-img",
+      {
+        opacity: 0,
+        stagger: { each: 0.4 },
+        duration: 0.6,
+        ease: "power3.inOut",
+        onComplete: () => {
+          let state = Flip.getState(".load-img.is-6", {
+            props: "backgroundPosition",
+          });
+          Flip.from(state, {
+            targets: ".hero-bg_wrap",
+            duration: 1.25,
+            toggleClass: "flipping",
+            absolute: true,
+            ease: "power3.inOut",
+          });
+        },
+      },
+      ">",
+    )
+    .to(".load", { opacity: 0, display: "none" });
+
+  if (sessionStorage.getItem("visited") !== null) {
+    document.querySelector(".load").remove();
+    loadElement.paused(true);
+    setTimeout(function () {
+      document.body.style.cssText = "overflow: auto; height: auto";
+    }, 300);
+
+    document.body.style.cssText = "overflow: auto;";
+    lenis.start();
+
+    gsap.set(
+      "[load-hero-heading-wrap], [load-nav], [load-hero-scroll], [load-hero-bg], [load-hero-paragraph], [load-hero-panel]",
+      { autoAlpha: 1 },
+    );
+
+    gsap
+      .timeline()
+      .from("[load-hero-bg]", { opacity: 0, duration: 0.6, ease: "power3.out" })
+      .fromTo(
+        "[load-heading] .char",
+        { yPercent: 120 },
+        {
+          yPercent: 0,
+          stagger: { amount: 0.8 },
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        ">-.2",
+      )
+      .from(
+        "[load-subtitle]",
+        { opacity: 0, duration: 0.8, ease: "power3.out" },
+        ">-.3",
+      )
+      .from(
+        "[load-hero-scroll]",
+        { opacity: 0, duration: 0.8, ease: "power3.inOut" },
+        "<-.2",
+      )
+      .fromTo(
+        "[load-nav]",
+        { yPercent: -100 },
+        { yPercent: 0, duration: 0.8, ease: "power3.inOut" },
+        0.6,
+      );
+  }
+  sessionStorage.setItem("visited", "true");
+}
+
 /* SPLIT TEXT ON SCROLL ANIMATION - Starts */
 document.addEventListener("DOMContentLoaded", () => {
   // Split text into spans
@@ -122,43 +269,43 @@ $(".slider-main_component").each(function () {
     spaceBetween: "4%",
     rewind: false,
     mousewheel: {
-      forceToAxis: true
+      forceToAxis: true,
     },
     keyboard: {
       enabled: true,
-      onlyInViewport: true
+      onlyInViewport: true,
     },
     breakpoints: {
       // mobile landscape
       480: {
         slidesPerView: "auto",
-        spaceBetween: "4%"
+        spaceBetween: "4%",
       },
       // tablet
       768: {
         slidesPerView: "auto",
-        spaceBetween: "4%"
+        spaceBetween: "4%",
       },
       // desktop
       992: {
         slidesPerView: "auto",
-        spaceBetween: "2%"
-      }
+        spaceBetween: "2%",
+      },
     },
     pagination: {
       el: $(this).find(".swiper-bullet-wrapper")[0],
       bulletActiveClass: "is-active",
       bulletClass: "swiper-bullet",
       bulletElement: "button",
-      clickable: true
+      clickable: true,
     },
     navigation: {
       nextEl: $(this).find(".swiper-next")[0],
       prevEl: $(this).find(".swiper-prev")[0],
-      disabledClass: "is-disabled"
+      disabledClass: "is-disabled",
     },
     slideActiveClass: "is-active",
-    slideDuplicateActiveClass: "is-active"
+    slideDuplicateActiveClass: "is-active",
   };
   new Swiper($(this).find(".swiper")[0], swiperOptions);
 });
@@ -184,19 +331,36 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let speedSetting = attr(100, componentEl.attr("tr-marquee-speed")),
       verticalSetting = attr(false, componentEl.attr("tr-marquee-vertical")),
       reverseSetting = attr(false, componentEl.attr("tr-marquee-reverse")),
-      scrollDirectionSetting = attr(false, componentEl.attr("tr-marquee-scrolldirection")),
-      scrollScrubSetting = attr(false, componentEl.attr("tr-marquee-scrollscrub")),
+      scrollDirectionSetting = attr(
+        false,
+        componentEl.attr("tr-marquee-scrolldirection"),
+      ),
+      scrollScrubSetting = attr(
+        false,
+        componentEl.attr("tr-marquee-scrollscrub"),
+      ),
       moveDistanceSetting = -100,
       timeScaleSetting = 1,
       pausedStateSetting = false;
     if (reverseSetting) moveDistanceSetting = 100;
-    let marqueeTimeline = gsap.timeline({ repeat: -1, onReverseComplete: () => marqueeTimeline.progress(1) });
+    let marqueeTimeline = gsap.timeline({
+      repeat: -1,
+      onReverseComplete: () => marqueeTimeline.progress(1),
+    });
     if (verticalSetting) {
       speedSetting = panelEl.first().height() / speedSetting;
-      marqueeTimeline.fromTo(panelEl, { yPercent: 0 }, { yPercent: moveDistanceSetting, ease: "none", duration: speedSetting });
+      marqueeTimeline.fromTo(
+        panelEl,
+        { yPercent: 0 },
+        { yPercent: moveDistanceSetting, ease: "none", duration: speedSetting },
+      );
     } else {
       speedSetting = panelEl.first().width() / speedSetting;
-      marqueeTimeline.fromTo(panelEl, { xPercent: 0 }, { xPercent: moveDistanceSetting, ease: "none", duration: speedSetting });
+      marqueeTimeline.fromTo(
+        panelEl,
+        { xPercent: 0 },
+        { xPercent: moveDistanceSetting, ease: "none", duration: speedSetting },
+      );
     }
     let scrubObject = { value: 1 };
     ScrollTrigger.create({
@@ -212,21 +376,37 @@ window.addEventListener("DOMContentLoaded", (event) => {
           if (scrollScrubSetting) {
             let v = self.getVelocity() * 0.006;
             v = gsap.utils.clamp(-60, 60, v);
-            let scrubTimeline = gsap.timeline({ onUpdate: () => marqueeTimeline.timeScale(scrubObject.value) });
-            scrubTimeline.fromTo(scrubObject, { value: v }, { value: timeScaleSetting, duration: 0.5 });
+            let scrubTimeline = gsap.timeline({
+              onUpdate: () => marqueeTimeline.timeScale(scrubObject.value),
+            });
+            scrubTimeline.fromTo(
+              scrubObject,
+              { value: v },
+              { value: timeScaleSetting, duration: 0.5 },
+            );
           }
         }
-      }
+      },
     });
     function pauseMarquee(isPausing) {
       pausedStateSetting = isPausing;
       let pauseObject = { value: 1 };
-      let pauseTimeline = gsap.timeline({ onUpdate: () => marqueeTimeline.timeScale(pauseObject.value) });
+      let pauseTimeline = gsap.timeline({
+        onUpdate: () => marqueeTimeline.timeScale(pauseObject.value),
+      });
       if (isPausing) {
-        pauseTimeline.fromTo(pauseObject, { value: timeScaleSetting }, { value: 0, duration: 0.5 });
+        pauseTimeline.fromTo(
+          pauseObject,
+          { value: timeScaleSetting },
+          { value: 0, duration: 0.5 },
+        );
         triggerClickEl.addClass("is-paused");
       } else {
-        pauseTimeline.fromTo(pauseObject, { value: 0 }, { value: timeScaleSetting, duration: 0.5 });
+        pauseTimeline.fromTo(
+          pauseObject,
+          { value: 0 },
+          { value: timeScaleSetting, duration: 0.5 },
+        );
         triggerClickEl.removeClass("is-paused");
       }
     }
@@ -582,7 +762,6 @@ $(".stack_card.is-3").each(function (index) {
     { pointerEvents: "none" },
   );
 });
-
 /* Stack Section Heading Animation */
 window.addEventListener("DOMContentLoaded", () => {
   // Split text into spans
@@ -699,7 +878,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     createScrollTrigger($(this), tl);
   });
-
   // Avoid flash of unstyled content
   gsap.set(".tour-img_panel", { opacity: 1 });
 });
@@ -726,7 +904,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     createScrollTrigger($(this), tl);
   });
-
   // Avoid flash of unstyled content
   gsap.set(".tour-img_panel", { opacity: 1 });
 });
@@ -779,11 +956,7 @@ document.addEventListener("DOMContentLoaded", () => {
       onLeaveBack: () => tl.progress(0).pause(),
     });
   }
-
-  // Find all elements with the fade-in attribute
   const fadeInElements = document.querySelectorAll("[fade-in]");
-
-  // Loop through each element and create a scroll trigger
   fadeInElements.forEach((element) => {
     createFadeInScrollTrigger(element);
   });
@@ -805,4 +978,3 @@ mm.add("(min-width: 992px)", () => {
   //   aboutStat(),
   //   () => {}
 });
-
